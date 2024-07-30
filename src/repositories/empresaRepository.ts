@@ -13,10 +13,9 @@ export const pesquisarEmpresaPeloIdRepository = async (id: number): Promise<Empr
 };
 
 export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empresa | null> => {
-	const {id,nome,endereco,descricao,contato,cnpj,email} = empresa;
+	const {nome,endereco,descricao,contato,cnpj,email} = empresa;
 	const resultEmpresa = await prisma.empresas.create({
 		data:{
-			id,
 			nome,
 			endereco,
 			descricao,
