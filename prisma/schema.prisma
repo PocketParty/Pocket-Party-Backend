@@ -1,27 +1,40 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./dev.db"
+    provider = "sqlite"
+    url      = "file:./dev.db"
 }
 
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  posts Post[]
+model Empresas {
+    id        Int         @id @default(autoincrement())
+    createdAt DateTime    @default(now())
+    nome      String
+    endereco  String
+    descricao String
+    contato   String
+    cnpj      String      @unique
+    email     String      @unique
+    catalogo  Catalogos[]
 }
 
-model Post {
-  id        Int      @id @default(autoincrement())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  viewCount Int      @default(0)
-  author    User?    @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model Catalogos {
+    id         Int        @id @default(autoincrement())
+    quantidade Int
+    empresa    Empresas   @relation(fields: [empresaId], references: [id])
+    empresaId  Int
+    produto    Produtos[]
+}
+
+model Produtos {
+    id            Int       @id @default(autoincrement())
+    createdAt     DateTime  @default(now())
+    catalogo      Catalogos @relation(fields: [catalogoId], references: [id])
+    catalogoId    Int
+    imagem        Bytes?
+    preco         Float
+    notaAvaliacao Float?
+    descricao     String
+    tags          String
 }
