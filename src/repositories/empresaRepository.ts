@@ -28,7 +28,7 @@ export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empr
  return resultEmpresa;
 };
 
-export const atualizarContatoEmpresaService = async (id: number, contato: string): Promise<Empresa | null> => {
+export const atualizarContatoEmpresaRepository = async (id: number, contato: string): Promise<Empresa | null> => {
 	const resultEmpresa = await prisma.empresas.update({
 		where:{
 			id
