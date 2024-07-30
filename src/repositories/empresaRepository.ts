@@ -27,6 +27,15 @@ export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empr
  return resultEmpresa;
 };
 
+export const removerEmpresaRepository = async (id: number): Promise<Empresa | null> => {
+	const resultEmpresa = await prisma.empresas.delete({
+		where:{
+			id
+		}
+	})
+  return resultEmpresa;
+};
+
 export const atualizarContatoEmpresaRepository = async (id: number, contato: string): Promise<Empresa | null> => {
 	const resultEmpresa = await prisma.empresas.update({
 		where:{
