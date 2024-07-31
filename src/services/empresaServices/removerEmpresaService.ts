@@ -1,5 +1,5 @@
-import { Empresa } from '../models/empresaModel';
-import { removerEmpresaRepository,pesquisarEmpresaPeloIdRepository } from '../repositories/empresaRepository';
+import { Empresa } from '../../models/empresaModel';
+import { removerEmpresaRepository,pesquisarEmpresaPeloIdRepository } from '../../repositories/empresaRepository';
 
 
 export const removerEmpresaService = async (idEmpresa: number): Promise<Empresa | null> => {

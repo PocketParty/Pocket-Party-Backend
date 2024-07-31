@@ -1,5 +1,5 @@
-import { Empresa } from '../models/empresaModel';
-import { atualizarContatoEmpresaRepository,pesquisarEmpresaPeloIdRepository } from '../repositories/empresaRepository';
+import { Empresa } from '../../models/empresaModel';
+import { atualizarContatoEmpresaRepository,pesquisarEmpresaPeloIdRepository } from '../../repositories/empresaRepository';
 
 
 export const atualizarContatoEmpresaService = async (idEmpresa: number, contato: string): Promise<Empresa | null> => {

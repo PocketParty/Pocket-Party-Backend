@@ -1,9 +1,9 @@
 import { Request, Response, Router } from 'express';
 import { Empresa } from '../models/empresaModel';
-import { pesquisarEmpresaService } from '../services/pesquisarEmpresaService';
-import { atualizarContatoEmpresaService } from '../services/atualizarContatoEmpresaService';
-import { adicionarEmpresaService } from '../services/adicionarEmpresaService';
-import { removerEmpresaService } from '../services/removerEmpresaService';
+import { pesquisarEmpresaService } from '../services/empresaServices/pesquisarEmpresaService';
+import { atualizarContatoEmpresaService } from '../services/empresaServices/atualizarContatoEmpresaService';
+import { adicionarEmpresaService } from '../services/empresaServices/adicionarEmpresaService';
+import { removerEmpresaService } from '../services/empresaServices/removerEmpresaService';
 
 const router = Router();
 
