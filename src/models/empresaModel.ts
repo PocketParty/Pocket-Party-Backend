@@ -1,5 +1,5 @@
 export interface Empresa {
-	id: number; 
+	id: number;
 	createdAt: Date;
 	nome: string;
 	endereco: string;
@@ -7,4 +7,4 @@ export interface Empresa {
 	contato: string;
 	cnpj: string;
 	email: string;
-  }
+}

@@ -9,5 +9,5 @@ app.use(express.json());
 app.use('/empresas', empresasController);
 
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+	console.log(`Servidor rodando em http://localhost:${port}`);
 });

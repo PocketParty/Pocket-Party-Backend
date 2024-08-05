@@ -5,17 +5,17 @@ const prisma = new PrismaClient();
 
 export const pesquisarEmpresaPeloIdRepository = async (id: number): Promise<Empresa | null> => {
 	const resultEmpresa = await prisma.empresas.findFirst({
-		where:{
+		where: {
 			id
 		}
 	})
-  return resultEmpresa;
+	return resultEmpresa;
 };
 
 export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empresa | null> => {
-	const {nome,endereco,descricao,contato,cnpj,email} = empresa;
+	const { nome, endereco, descricao, contato, cnpj, email } = empresa;
 	const resultEmpresa = await prisma.empresas.create({
-		data:{
+		data: {
 			nome,
 			endereco,
 			descricao,
@@ -24,26 +24,26 @@ export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empr
 			email
 		}
 	})
- return resultEmpresa;
+	return resultEmpresa;
 };
 
 export const removerEmpresaRepository = async (id: number): Promise<Empresa | null> => {
 	const resultEmpresa = await prisma.empresas.delete({
-		where:{
+		where: {
 			id
 		}
 	})
-  return resultEmpresa;
+	return resultEmpresa;
 };
 
 export const atualizarContatoEmpresaRepository = async (id: number, contato: string): Promise<Empresa | null> => {
 	const resultEmpresa = await prisma.empresas.update({
-		where:{
+		where: {
 			id
 		},
 		data: {
 			contato
 		}
 	})
-  return resultEmpresa;
+	return resultEmpresa;
 };
