@@ -4,7 +4,7 @@ import { Catalogo } from '../models/catalogoModel';
 const prisma = new PrismaClient();
 
 export const adicionarCatalogoRepository = async (catalogo: Catalogo): Promise<Catalogo | null> => {
-	const { quantidade , empresaId} = catalogo;
+	const { quantidade, empresaId } = catalogo;
 	const resultCatalogo = await prisma.catalogos.create({
 		data: {
 			quantidade,
@@ -16,6 +16,15 @@ export const adicionarCatalogoRepository = async (catalogo: Catalogo): Promise<C
 
 export const removerCatalogoRepository = async (id: number): Promise<Catalogo | null> => {
 	const resultCatalogo = await prisma.catalogos.delete({
+		where: {
+			id
+		}
+	})
+	return resultCatalogo;
+};
+
+export const pesquisarCatalogoPeloIdRepository = async (id: number): Promise<Catalogo | null> => {
+	const resultCatalogo = await prisma.catalogos.findFirst({
 		where: {
 			id
 		}

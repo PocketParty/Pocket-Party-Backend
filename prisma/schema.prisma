@@ -32,9 +32,9 @@ model Produtos {
     createdAt     DateTime  @default(now())
     catalogo      Catalogos @relation(fields: [catalogoId], references: [id])
     catalogoId    Int
-    imagem        Bytes?
+    imagem        String
     preco         Float
-    notaAvaliacao Float?
+    notaAvaliacao Float
     descricao     String
     tags          String
 }
