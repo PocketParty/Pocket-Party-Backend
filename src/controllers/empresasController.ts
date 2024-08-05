@@ -9,7 +9,7 @@ import { EmpresaContatoPatchRequestDto } from '../dto/empresaDto/empresaContatoP
 
 const router = Router();
 
-router.get('/pesquisar/empresa', async (req: Request, res: Response) => {
+router.get('/pesquisar', async (req: Request, res: Response) => {
 	const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = req.body;
 	const result = await pesquisarEmpresaService(empresaGetDeleteRequestDto);
 	if (result) {
@@ -19,7 +19,7 @@ router.get('/pesquisar/empresa', async (req: Request, res: Response) => {
 	}
 });
 
-router.post('/adicionar/empresa', async (req: Request, res: Response) => {
+router.post('/adicionar', async (req: Request, res: Response) => {
 	const empresaPostPutRequestDto: EmpresaPostPutRequestDto = req.body;
 	const result = await adicionarEmpresaService(empresaPostPutRequestDto);
 	if (result) {
@@ -29,7 +29,7 @@ router.post('/adicionar/empresa', async (req: Request, res: Response) => {
 	}
 });
 
-router.patch('/atualizar/empresa/contato', async (req: Request, res: Response) => {
+router.patch('/atualizar/contato', async (req: Request, res: Response) => {
 	const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = req.body;
 	const result = await atualizarContatoEmpresaService(empresaContatoPatchRequestDto);
 	if (result) {
@@ -39,7 +39,7 @@ router.patch('/atualizar/empresa/contato', async (req: Request, res: Response) =
 	}
 });
 
-router.delete('/deletar/empresa/', async (req: Request, res: Response) => {
+router.delete('/remover', async (req: Request, res: Response) => {
 	const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = req.body;
 	const result = await removerEmpresaService(empresaGetDeleteRequestDto);
 	if (result) {
