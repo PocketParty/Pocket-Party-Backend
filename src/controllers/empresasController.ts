@@ -6,6 +6,7 @@ import { removerEmpresaService } from '../services/empresaServices/removerEmpres
 import { EmpresaGetDeleteRequestDto } from '../dto/empresaDto/empresaGetDeleteRequestDto';
 import { EmpresaPostPutRequestDto } from '../dto/empresaDto/empresaPostPutRequestDto';
 import { EmpresaContatoPatchRequestDto } from '../dto/empresaDto/empresaContatoPatchRequestDto';
+import { pesquisarTodasEmpresaService } from '../services/empresaServices/pesquisarTodasEmpresasService';
 
 const router = Router();
 
@@ -16,6 +17,15 @@ router.get('/pesquisar', async (req: Request, res: Response) => {
 		return res.status(200).json(result);
 	} else {
 		return res.status(404).json({ message: "Empresa não encontrada" });
+	}
+});
+
+router.get('/pesquisar/todas', async (req: Request, res: Response) => {
+	const result = await pesquisarTodasEmpresaService();
+	if (result?.length != 0) {
+		return res.status(200).json(result);
+	} else {
+		return res.status(404).json({ message: "Não existe empresa cadastrada" });
 	}
 });
 
