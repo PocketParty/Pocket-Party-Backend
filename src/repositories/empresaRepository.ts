@@ -7,6 +7,13 @@ export const pesquisarEmpresaPeloIdRepository = async (id: number): Promise<Empr
 	const resultEmpresa = await prisma.empresas.findFirst({
 		where: {
 			id
+		},
+		include:{
+			catalogo:{
+				include:{
+					produto: true
+				}
+			}
 		}
 	})
 	return resultEmpresa;
