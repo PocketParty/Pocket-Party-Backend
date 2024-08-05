@@ -5,7 +5,7 @@ import { atualizarContatoEmpresaRepository, pesquisarEmpresaPeloIdRepository } f
 export const atualizarContatoEmpresaService = async (empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto): Promise<Empresa | null> => {
 	const result = await pesquisarEmpresaPeloIdRepository(empresaContatoPatchRequestDto.id);
 	if (result !== null) {
-		return await atualizarContatoEmpresaRepository(result.id!, result.contato);
+		return await atualizarContatoEmpresaRepository(result.id!, empresaContatoPatchRequestDto.contato);
 	} else {
 		return null;
 	}
