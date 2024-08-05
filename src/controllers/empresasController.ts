@@ -1,15 +1,17 @@
 import { Request, Response, Router } from 'express';
-import { Empresa } from '../models/empresaModel';
 import { pesquisarEmpresaService } from '../services/empresaServices/pesquisarEmpresaService';
 import { atualizarContatoEmpresaService } from '../services/empresaServices/atualizarContatoEmpresaService';
 import { adicionarEmpresaService } from '../services/empresaServices/adicionarEmpresaService';
 import { removerEmpresaService } from '../services/empresaServices/removerEmpresaService';
+import { EmpresaGetDeleteRequestDto } from '../dto/empresaDto/empresaGetDeleteRequestDto';
+import { EmpresaPostPutRequestDto } from '../dto/empresaDto/empresaPostPutRequestDto';
+import { EmpresaContatoPatchRequestDto } from '../dto/empresaDto/empresaContatoPatchRequestDto';
 
 const router = Router();
 
 router.get('/pesquisar/empresa', async (req: Request, res: Response) => {
-	const idEmpresa = req.body.id;
-	const result = await pesquisarEmpresaService(idEmpresa);
+	const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = req.body;
+	const result = await pesquisarEmpresaService(empresaGetDeleteRequestDto);
 	if (result) {
 		return res.status(200).json(result);
 	} else {
@@ -18,8 +20,8 @@ router.get('/pesquisar/empresa', async (req: Request, res: Response) => {
 });
 
 router.post('/adicionar/empresa', async (req: Request, res: Response) => {
-	const empresa: Empresa = req.body;
-	const result = await adicionarEmpresaService(empresa);
+	const empresaPostPutRequestDto: EmpresaPostPutRequestDto = req.body;
+	const result = await adicionarEmpresaService(empresaPostPutRequestDto);
 	if (result) {
 		return res.status(201).json(result);
 	} else {
@@ -28,9 +30,8 @@ router.post('/adicionar/empresa', async (req: Request, res: Response) => {
 });
 
 router.patch('/atualizar/empresa/contato', async (req: Request, res: Response) => {
-	const idEmpresa = req.body.id;
-	const contato = req.body.contato;
-	const result = await atualizarContatoEmpresaService(idEmpresa, contato);
+	const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = req.body;
+	const result = await atualizarContatoEmpresaService(empresaContatoPatchRequestDto);
 	if (result) {
 		return res.status(201).json(result);
 	} else {
@@ -39,8 +40,8 @@ router.patch('/atualizar/empresa/contato', async (req: Request, res: Response) =
 });
 
 router.delete('/deletar/empresa/', async (req: Request, res: Response) => {
-	const idEmpresa = req.body.id;
-	const result = await removerEmpresaService(idEmpresa);
+	const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = req.body;
+	const result = await removerEmpresaService(empresaGetDeleteRequestDto);
 	if (result) {
 		return res.status(204).json(result);
 	} else {

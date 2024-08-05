@@ -12,6 +12,15 @@ export const pesquisarEmpresaPeloIdRepository = async (id: number): Promise<Empr
 	return resultEmpresa;
 };
 
+export const pesquisarEmpresaPeloCnpjRepository = async (cnpj: string): Promise<Empresa | null> => {
+	const resultEmpresa = await prisma.empresas.findFirst({
+		where: {
+			cnpj
+		}
+	})
+	return resultEmpresa;
+};
+
 export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empresa | null> => {
 	const { nome, endereco, descricao, contato, cnpj, email } = empresa;
 	const resultEmpresa = await prisma.empresas.create({

@@ -1,6 +1,4 @@
-export interface Empresa {
-	id?: number;
-	createdAt?: Date;
+export interface EmpresaPostPutRequestDto {
 	nome: string;
 	endereco: string;
 	descricao: string;

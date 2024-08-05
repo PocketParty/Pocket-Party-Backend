@@ -1,11 +1,11 @@
+import { EmpresaGetDeleteRequestDto } from '../../dto/empresaDto/empresaGetDeleteRequestDto';
 import { Empresa } from '../../models/empresaModel';
 import { removerEmpresaRepository, pesquisarEmpresaPeloIdRepository } from '../../repositories/empresaRepository';
 
-
-export const removerEmpresaService = async (idEmpresa: number): Promise<Empresa | null> => {
-	const result = await pesquisarEmpresaPeloIdRepository(idEmpresa);
+export const removerEmpresaService = async (empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto): Promise<Empresa | null> => {
+	const result = await pesquisarEmpresaPeloIdRepository(empresaGetDeleteRequestDto.id);
 	if (result !== null) {
-		return await removerEmpresaRepository(idEmpresa);
+		return await removerEmpresaRepository(result.id!);
 	} else {
 		return null;
 	}
