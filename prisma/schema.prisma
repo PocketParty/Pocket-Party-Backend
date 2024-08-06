@@ -17,6 +17,7 @@ model Empresas {
     cnpj      String      @unique
     email     String      @unique
     catalogo  Catalogos[]
+    LojasFavoritas LojasFavoritas[]
 }
 
 model Catalogos {
@@ -37,4 +38,22 @@ model Produtos {
     notaAvaliacao Float
     descricao     String
     tags          String
+}
+model Clientes {
+    id         Int       @id @default(autoincrement())
+    createdAt  DateTime  @default(now())
+    nome       String
+    endereco   String
+    cpf        String
+    email      String
+    telegone   String
+    LojasFavoritas LojasFavoritas[]
+}
+
+model LojasFavoritas {
+    id         Int       @id @default(autoincrement())
+    empresa    Empresas   @relation(fields: [empresaId], references: [id])
+    empresaId  Int
+	cliente    Clientes   @relation(fields: [clienteId], references: [id])
+    clienteId  Int
 }
