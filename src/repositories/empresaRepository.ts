@@ -8,12 +8,13 @@ export const pesquisarEmpresaPeloIdRepository = async (id: number): Promise<Empr
 		where: {
 			id
 		},
-		include:{
-			catalogo:{
-				include:{
-					produto: true
-				}
-			}
+		select:{
+			nome:true,
+			cnpj: true,
+			contato: true,
+			descricao: true,
+			email: true,
+			endereco: true
 		}
 	})
 	return resultEmpresa;
@@ -29,7 +30,16 @@ export const pesquisarEmpresaPeloCnpjRepository = async (cnpj: string): Promise<
 };
 
 export const pesquisarTodasEmpresaRepository = async (): Promise<Empresa[] | null> => {
-	const resultEmpresa = await prisma.empresas.findMany();
+	const resultEmpresa = await prisma.empresas.findMany({
+		select:{
+			nome:true,
+			cnpj: true,
+			contato: true,
+			descricao: true,
+			email: true,
+			endereco: true
+		}
+	});
 	return resultEmpresa;
 };
 
