@@ -11,51 +11,52 @@ import { pesquisarTodasEmpresaService } from '../services/empresaServices/pesqui
 const router = Router();
 
 router.get('/pesquisar', async (req: Request, res: Response) => {
-	const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = req.body;
-	const result = await pesquisarEmpresaService(empresaGetDeleteRequestDto);
-	if (result) {
+	try {
+		const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = req.body;
+		const result = await pesquisarEmpresaService(empresaGetDeleteRequestDto);
 		return res.status(200).json(result);
-	} else {
-		return res.status(404).json({ message: "Empresa não encontrada" });
+	} catch (error: any) {
+		return res.status(error.statusCode).json({ message: error.message });
 	}
 });
 
 router.get('/pesquisar/todas', async (req: Request, res: Response) => {
-	const result = await pesquisarTodasEmpresaService();
-	if (result?.length != 0) {
+	try {
+		const result = await pesquisarTodasEmpresaService();
 		return res.status(200).json(result);
-	} else {
-		return res.status(404).json({ message: "Não existe empresa cadastrada" });
+	} catch (error: any) {
+		return res.status(error.statusCode).json({ message: error.message });
 	}
 });
 
 router.post('/adicionar', async (req: Request, res: Response) => {
-	const empresaPostPutRequestDto: EmpresaPostPutRequestDto = req.body;
-	const result = await adicionarEmpresaService(empresaPostPutRequestDto);
-	if (result) {
+	try {
+		const empresaPostPutRequestDto: EmpresaPostPutRequestDto = req.body;
+		const result = await adicionarEmpresaService(empresaPostPutRequestDto);
 		return res.status(201).json(result);
-	} else {
-		return res.status(404).json({ message: "Empresa com cnpj já existente" });
+	} catch (error: any) {
+		return res.status(error.statusCode).json({ message: error.message });
 	}
 });
 
 router.patch('/atualizar/contato', async (req: Request, res: Response) => {
-	const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = req.body;
-	const result = await atualizarContatoEmpresaService(empresaContatoPatchRequestDto);
-	if (result) {
+	try {
+		const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = req.body;
+		const result = await atualizarContatoEmpresaService(empresaContatoPatchRequestDto);
 		return res.status(201).json(result);
-	} else {
-		return res.status(404).json({ message: 'Empresa não encontrada' });
+	} catch (error: any) {
+		return res.status(error.statusCode).json({ message: error.message });
 	}
 });
 
 router.delete('/remover', async (req: Request, res: Response) => {
-	const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = req.body;
-	const result = await removerEmpresaService(empresaGetDeleteRequestDto);
-	if (result) {
-		return res.status(204).json(result);
-	} else {
-		return res.status(404).json({ message: 'Empresa não encontrada' });
+	try {
+		const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = req.body;
+		await removerEmpresaService(empresaGetDeleteRequestDto);
+		return res.status(204).json();
+
+	} catch (error: any) {
+		return res.status(error.statusCode).json({ message: error.message });
 	}
 });
 
