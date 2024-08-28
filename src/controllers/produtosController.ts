@@ -7,11 +7,7 @@ const router = Router();
 router.post('/adicionar', async (req: Request, res: Response) => {
 	const produtoPostPutRequestDto: ProdutoPostPutRequestDto = req.body;
 	const result = await adicionarProdutoService(produtoPostPutRequestDto);
-	if (result) {
-		return res.status(201).json(result);
-	} else {
-		return res.status(404).json({ message: "Catalogo nao existe" });
-	}
+	return res.status(201).json(result);
 });
 
 
