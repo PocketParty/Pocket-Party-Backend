@@ -1,4 +1,4 @@
-export interface Empresa {
+export interface EmpresaDto {
 	nome: string;
 	endereco: string;
 	telefone: string;
@@ -6,5 +6,4 @@ export interface Empresa {
 	email: string;
 	username: string;
 	cep: string;
-	senha: string;
 }

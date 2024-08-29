@@ -1,12 +1,14 @@
 import { EmpresaContatoPatchRequestDto } from '../../dto/empresaDto/empresaContatoPatchRequestDto';
+import { EmpresaDto } from '../../dto/empresaDto/EmpresaDto';
 import { EmpresaNaoExiste } from '../../error/EmpresaNaoExiste';
-import { Empresa } from '../../models/empresaModel';
 import { atualizarContatoEmpresaRepository, pesquisarEmpresaPeloIdRepository } from '../../repositories/empresaRepository';
 
-export const atualizarContatoEmpresaService = async (empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto): Promise<Empresa | null> => {
+export const atualizarContatoEmpresaService = async (empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto): Promise<EmpresaDto | null> => {
 	const empresaPesquisada = await pesquisarEmpresaPeloIdRepository(empresaContatoPatchRequestDto.id);
 	if (empresaPesquisada === null) {
 		throw EmpresaNaoExiste()
 	}
-	return await atualizarContatoEmpresaRepository(empresaContatoPatchRequestDto.id, empresaContatoPatchRequestDto.contato);
+	const empresaAtualizada =  await atualizarContatoEmpresaRepository(empresaContatoPatchRequestDto.id, empresaContatoPatchRequestDto.contato);
+	const { senha, ...empresaDto } = empresaAtualizada!;
+	return empresaDto;
 };
