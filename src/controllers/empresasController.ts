@@ -6,7 +6,6 @@ import { removerEmpresaService } from '../services/empresaServices/removerEmpres
 import { EmpresaGetDeleteRequestDto } from '../dto/empresaDto/empresaGetDeleteRequestDto';
 import { EmpresaPostPutRequestDto } from '../dto/empresaDto/empresaPostPutRequestDto';
 import { EmpresaContatoPatchRequestDto } from '../dto/empresaDto/empresaContatoPatchRequestDto';
-import { pesquisarTodasEmpresaService } from '../services/empresaServices/pesquisarTodasEmpresasService';
 
 const router = Router();
 
@@ -16,10 +15,6 @@ router.get('/pesquisar', async (req: Request, res: Response) => {
 	return res.status(200).json(result);
 });
 
-router.get('/pesquisar/todas', async (req: Request, res: Response) => {
-	const result = await pesquisarTodasEmpresaService();
-	return res.status(200).json(result);
-});
 
 router.post('/adicionar', async (req: Request, res: Response) => {
 	const empresaPostPutRequestDto: EmpresaPostPutRequestDto = req.body;

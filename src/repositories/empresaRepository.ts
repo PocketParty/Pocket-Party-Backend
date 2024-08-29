@@ -7,14 +7,6 @@ export const pesquisarEmpresaPeloIdRepository = async (id: number): Promise<Empr
 	const resultEmpresa = await prisma.empresas.findFirst({
 		where: {
 			id
-		},
-		select:{
-			nome:true,
-			cnpj: true,
-			contato: true,
-			descricao: true,
-			email: true,
-			endereco: true
 		}
 	})
 	return resultEmpresa;
@@ -29,30 +21,10 @@ export const pesquisarEmpresaPeloCnpjRepository = async (cnpj: string): Promise<
 	return resultEmpresa;
 };
 
-export const pesquisarTodasEmpresaRepository = async (): Promise<Empresa[] | null> => {
-	const resultEmpresa = await prisma.empresas.findMany({
-		select:{
-			nome:true,
-			cnpj: true,
-			contato: true,
-			descricao: true,
-			email: true,
-			endereco: true
-		}
-	});
-	return resultEmpresa;
-};
-
 export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empresa | null> => {
-	const { nome, endereco, descricao, contato, cnpj, email } = empresa;
 	const resultEmpresa = await prisma.empresas.create({
 		data: {
-			nome,
-			endereco,
-			descricao,
-			contato,
-			cnpj,
-			email
+			...empresa
 		}
 	})
 	return resultEmpresa;
@@ -67,13 +39,13 @@ export const removerEmpresaRepository = async (id: number): Promise<Empresa | nu
 	return resultEmpresa;
 };
 
-export const atualizarContatoEmpresaRepository = async (id: number, contato: string): Promise<Empresa | null> => {
+export const atualizarContatoEmpresaRepository = async (id: number, telefone: string): Promise<Empresa | null> => {
 	const resultEmpresa = await prisma.empresas.update({
 		where: {
 			id
 		},
 		data: {
-			contato
+			telefone
 		}
 	})
 	return resultEmpresa;
