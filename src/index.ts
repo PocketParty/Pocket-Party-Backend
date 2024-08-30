@@ -17,3 +17,5 @@ app.use(errorMiddleware)
 app.listen(port, () => {
 	console.log(`Servidor rodando em http://localhost:${port}`);
 });
+
+export default app;
