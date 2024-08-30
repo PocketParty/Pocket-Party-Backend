@@ -32,7 +32,7 @@ describe('PATCH /empresas/atualizar/contato', () => {
 	it('Remove uma empresa que nao existe', async () => {
 		const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = {
 			'id': 1,
-			'contato': 'contato novo'
+			'telefone': 'telefone novo'
 		}
 		const response = await request(app).patch('/empresas/atualizar/contato').send(empresaContatoPatchRequestDto);
 
