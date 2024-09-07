@@ -2,6 +2,7 @@ import { Request, Response, Router } from 'express';
 import { ProdutoPostPutRequestDto } from '../dto/produtoDto/produtoPostPutRequestDto';
 import { adicionarProdutoService } from '../services/produtoService/adicionarProdutoService';
 import {getProdutoService} from '../services/produtoService/getProdutoService';
+import { getAllProdutoService } from '../services/produtoService/getAllProdutoService';
 const router = Router();
 
 router.post('/adicionar', async (req: Request, res: Response) => {
@@ -13,5 +14,9 @@ router.get('/get/:id',async (req:Request,res:Response) => {
 	const result = await getProdutoService(Number(req.params.id));
 	return res.status(200).json(result);
 });
+router.get('/get',async (req:Request,res:Response) => {
+	const result = await getAllProdutoService();
+	return res.status(200).json(result)
+})
 
 export default router;

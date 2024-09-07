@@ -35,3 +35,8 @@ export const getProdutoRepository = async (id:number): Promise<Produto | null> =
 	})
 	return resultProduto
 };
+
+export const getAllProdutoRepository = async (): Promise<Produto[]|null> => {
+	const resultProduto = await prisma.produtos.findMany()
+	return resultProduto;
+}
