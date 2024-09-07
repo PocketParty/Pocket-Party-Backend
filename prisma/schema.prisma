@@ -4,19 +4,21 @@ generator client {
 
 datasource db {
     provider = "sqlite"
-    url      = "file:./dev.db"
+    url      = env("DATABASE_URL")
 }
 
 model Empresas {
-    id        Int         @id @default(autoincrement())
-    createdAt DateTime    @default(now())
-    nome      String
-    endereco  String
-    descricao String
-    contato   String
-    cnpj      String      @unique
-    email     String      @unique
-    catalogo  Catalogos[]
+    id             Int              @id @default(autoincrement())
+    createdAt      DateTime         @default(now())
+    nome           String
+    endereco       String
+    telefone       String
+    cep            String
+    cnpj           String           @unique
+    email          String           @unique
+    username       String           @unique
+    senha          String
+    catalogo       Catalogos[]
     LojasFavoritas LojasFavoritas[]
 }
 
@@ -39,21 +41,22 @@ model Produtos {
     descricao     String
     tags          String
 }
+
 model Clientes {
-    id         Int       @id @default(autoincrement())
-    createdAt  DateTime  @default(now())
-    nome       String
-    endereco   String
-    cpf        String
-    email      String
-    telegone   String
+    id             Int              @id @default(autoincrement())
+    createdAt      DateTime         @default(now())
+    nome           String
+    endereco       String
+    cpf            String
+    email          String
+    telegone       String
     LojasFavoritas LojasFavoritas[]
 }
 
 model LojasFavoritas {
-    id         Int       @id @default(autoincrement())
-    empresa    Empresas   @relation(fields: [empresaId], references: [id])
-    empresaId  Int
-	cliente    Clientes   @relation(fields: [clienteId], references: [id])
-    clienteId  Int
+    id        Int      @id @default(autoincrement())
+    empresa   Empresas @relation(fields: [empresaId], references: [id])
+    empresaId Int
+    cliente   Clientes @relation(fields: [clienteId], references: [id])
+    clienteId Int
 }
