@@ -28,12 +28,12 @@ beforeAll(async () => {
 });
 
 beforeEach(async () => {
-	await prisma.$executeRaw`DELETE FROM empresas;`
-	await prisma.$executeRaw`DELETE FROM catalogos;`
-	await prisma.$executeRaw`DELETE FROM produtos;`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='empresas';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='catalogos';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='produtos';`
+	await prisma.$executeRaw`DELETE FROM Empresas;`
+	await prisma.$executeRaw`DELETE FROM Catalogos;`
+	await prisma.$executeRaw`DELETE FROM Produtos;`
+	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Empresas';`
+	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Catalogos';`
+	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Produtos';`
 	const empresaPostPutRequestDto: EmpresaPostPutRequestDto = {
 		"nome": "nome fantasia",
 		"endereco": "endereco fantasia",
@@ -52,12 +52,12 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
-	await prisma.$executeRaw`DELETE FROM empresas;`
-	await prisma.$executeRaw`DELETE FROM catalogos;`
-	await prisma.$executeRaw`DELETE FROM produtos;`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='empresas';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='catalogos';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='produtos';`
+	await prisma.$executeRaw`DELETE FROM Empresas;`
+	await prisma.$executeRaw`DELETE FROM Catalogos;`
+	await prisma.$executeRaw`DELETE FROM Produtos;`
+	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Empresas';`
+	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Catalogos';`
+	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Produtos';`
 });
 
 afterAll(async () => {
