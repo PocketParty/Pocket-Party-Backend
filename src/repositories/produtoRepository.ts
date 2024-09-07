@@ -26,3 +26,12 @@ export const removerProdutoRepository = async (id: number): Promise<Produto | nu
 	})
 	return resultProduto;
 };
+
+export const getProdutoRepository = async (id:number): Promise<Produto | null> =>{
+	const resultProduto = await prisma.produtos.findUnique({
+		where: {
+			id
+		}
+	})
+	return resultProduto
+};
