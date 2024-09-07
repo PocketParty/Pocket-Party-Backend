@@ -6,16 +6,15 @@ import produtoController from './controllers/produtosController'
 import { errorMiddleware } from './middlewares/error';
 
 const app = express();
-const port = 3001;
-
 app.use(express.json());
 app.use('/empresas', empresasController);
 app.use('/catalogos', catalogoControler);
 app.use('/produtos', produtoController);
 app.use(errorMiddleware)
 
-app.listen(port, () => {
-	console.log(`Servidor rodando em http://localhost:${port}`);
+app.listen(process.env.PORT, () => {
+	console.log(`Servidor rodando em http://localhost:${process.env.PORT}`);
+	console.log(`url = env(${process.env.DATABASE_URL})`)
 });
 
 export default app;
