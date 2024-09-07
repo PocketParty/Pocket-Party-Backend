@@ -40,3 +40,18 @@ export const getAllProdutoRepository = async (): Promise<Produto[]|null> => {
 	const resultProduto = await prisma.produtos.findMany()
 	return resultProduto;
 }
+
+export const atualizarProdutoRepository = async(id: number, produto:Produto):Promise<Produto|null> => {
+	const resutlProduto = await prisma.produtos.update({
+		where:{ 
+			id 
+		}, data:{
+			tags: produto.tags,
+			preco: produto.preco,
+			notaAvaliacao: produto.notaAvaliacao,
+			descricao: produto.descricao,
+			imagem: produto.imagem
+		}
+	})
+	return resutlProduto;
+}
