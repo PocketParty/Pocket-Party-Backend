@@ -1,25 +1,10 @@
 import "express-async-errors"
 import request from 'supertest';
 import { PrismaClient } from '@prisma/client';
-import express from 'express';
-import empresasController from "../src/controllers/empresasController";
-import catalogoControler from "../src/controllers/catalogosController";
-import produtoController from "../src/controllers/produtosController";
-import { errorMiddleware } from "../src/middlewares/error";
 import { EmpresaGetDeleteRequestDto } from "../src/dto/empresaDto/empresaGetDeleteRequestDto";
 import { EmpresaContatoPatchRequestDto } from "../src/dto/empresaDto/empresaContatoPatchRequestDto";
 import { EmpresaPostPutRequestDto } from "../src/dto/empresaDto/empresaPostPutRequestDto";
-
-const app = express();
-app.use(express.json());
-app.use('/empresas', empresasController);
-app.use('/catalogos', catalogoControler);
-app.use('/produtos', produtoController);
-app.use(errorMiddleware)
-const server = app.listen(process.env.PORT, () => {
-	console.log(`Servidor rodando em http://localhost:${process.env.PORT}`);
-	console.log(`url = env(${process.env.DATABASE_URL})`)
-});
+import {app,server} from "../src/index"
 
 const prisma = new PrismaClient();
 
