@@ -8,7 +8,7 @@ export const atualizarContatoEmpresaService = async (empresaContatoPatchRequestD
 	if (empresaPesquisada === null) {
 		throw EmpresaNaoExiste()
 	}
-	const empresaAtualizada =  await atualizarContatoEmpresaRepository(empresaContatoPatchRequestDto.id, empresaContatoPatchRequestDto.contato);
+	const empresaAtualizada =  await atualizarContatoEmpresaRepository(empresaContatoPatchRequestDto.id, empresaContatoPatchRequestDto.telefone);
 	const { senha, ...empresaDto } = empresaAtualizada!;
 	return empresaDto;
 };
