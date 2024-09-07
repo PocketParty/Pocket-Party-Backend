@@ -91,31 +91,40 @@ describe('DELETE /empresas/remover', () => {
 		const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = {
 			'id': 100
 		}
-		const response = await request(app).delete('/empresas/pesquisar').send(empresaGetDeleteRequestDto);
+		const response = await request(app).delete('/empresas/remover').send(empresaGetDeleteRequestDto);
 
 		expect(response.status).toBe(404);
+		expect(response.body).toEqual({ message: 'Empresa não exsite!' });
+	});
+	it('Remove uma empresa que existe', async () => {
+		const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = {
+			'id': 1
+		}
+		const response = await request(app).delete('/empresas/remover').send(empresaGetDeleteRequestDto);
+		
+		expect(response.status).toBe(204);
 		expect(response.body).toEqual({});
 	});
 });
 
 describe('PATCH /empresas/atualizar/contato', () => {
-	it('Atualiza uma empresa que não existe', async () => {
+	it('Atualiza o contato de uma empresa que não existe', async () => {
 		const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = {
 			'id': 100,
 			'telefone': 'telefone novo'
 		}
 		const response = await request(app).patch('/empresas/atualizar/contato').send(empresaContatoPatchRequestDto);
-
+		
 		expect(response.status).toBe(404);
 		expect(response.body).toEqual({ message: 'Empresa não exsite!' });
 	});
-	it('Atualiza uma empresa que existe', async () => {
+	it('Atualiza o contato de uma empresa que existe', async () => {
 		const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = {
 			'id': 1,
 			'telefone': 'telefone novo'
 		}
 		const response = await request(app).patch('/empresas/atualizar/contato').send(empresaContatoPatchRequestDto);
-
+		
 		expect(response.status).toBe(201);
 		expect(response.body).toHaveProperty('telefone', 'telefone novo');
 	});
@@ -134,8 +143,24 @@ describe('POST /empresas/adicionar', () => {
 			"senha": "123"
 		}
 		const response = await request(app).post('/empresas/adicionar').send(empresaPostPutRequestDto);
-
+		
 		expect(response.status).toBe(201);
 		expect(response.body).toHaveProperty('id');
+	});
+	it('Adiciona uma empresa já existente', async () => {
+		const empresaPostPutRequestDto: EmpresaPostPutRequestDto = {
+			"nome": "nome fantasia",
+			"endereco": "endereco fantasia",
+			"telefone": "contato fantasia",
+			"cnpj": "cnpj fantasia",
+			"email": "email fantasia",
+			"username": "username fantasia",
+			"cep": "cep fantasia",
+			"senha": "fantasia"
+		}
+		const response = await request(app).post('/empresas/adicionar').send(empresaPostPutRequestDto);
+		
+		expect(response.status).toBe(404);
+		expect(response.body).toEqual({ message: 'Já existe empresa cadastrada com o mesmo cnpj' });
 	});
 });
