@@ -10,6 +10,12 @@
   - **DATABASE_URL = file:./teste.db**
   - **SECRET** = suaChaveSecretaSuperSegura123!@#
   - **PORT** = 3001
+  Ou copie os arquivos
+  ```shell
+  cp .env.example .env
+  cp .env.test.local.example .env.test.local
+  ```
+
 
 ## Rodando a aplicação
 - npm run migrate:dev
