@@ -3,11 +3,11 @@
 - npm install
 ## Configuração inicial
 - Crie um arquivo **.env** com as seguinte variáveis: 
-  - **DATABASE_URL = file:./dev.db**
+  - **DATABASE_URL = "postgresql://postgres:senha123@localhost:5432/dev?schema=public"**
   - **SECRET** = suaChaveSecretaSuperSegura123!@#
   - **PORT** = 3000
 - Crie um arquivo **.env.test.local** com as seguinte variáveis: 
-  - **DATABASE_URL = file:./teste.db**
+  - **DATABASE_URL = postgresql://postgres:senha123@localhost:5432/testdb?schema=public**
   - **SECRET** = suaChaveSecretaSuperSegura123!@#
   - **PORT** = 3001
 
