@@ -3,7 +3,7 @@ import { ProdutoPostPutRequestDto } from '../dto/produtoDto/produtoPostPutReques
 import { adicionarProdutoService } from '../services/produtoService/adicionarProdutoService';
 import {getProdutoService} from '../services/produtoService/getProdutoService';
 import { getAllProdutoService } from '../services/produtoService/getAllProdutoService';
-import { atualizarProdutoRepository } from '../repositories/produtoRepository';
+import { getByTagProdutoService } from '../services/produtoService/getByTagProdutoService';
 import { atualizarProdutoService } from '../services/produtoService/atualizarProdutoService';
 const router = Router();
 
@@ -23,5 +23,10 @@ router.get('/get',async (req:Request,res:Response) => {
 router.post('/atualizar/:id',async (req:Request, res:Response)=>{
 	const produtoPostPutRequestDto: ProdutoPostPutRequestDto = req.body;
 	const result = await atualizarProdutoService(Number(req.params.id),produtoPostPutRequestDto)
+	return res.status(200).json(result)
+})
+router.post('/get',async (req:Request,res:Response)=>{
+	const result = await getByTagProdutoService(req.body);
+	return res.status(200).json(result)
 })
 export default router;

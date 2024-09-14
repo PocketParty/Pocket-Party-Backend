@@ -55,3 +55,14 @@ export const atualizarProdutoRepository = async(id: number, produto:Produto):Pro
 	})
 	return resutlProduto;
 }
+
+export const getByTagProdutoRepository = async(tag:string):Promise<Produto[]|null> =>{
+	const resultProduto = await prisma.produtos.findMany({
+		where:{
+			tags: {
+				contains:tag
+			}
+		}
+	})
+	return resultProduto;
+}
