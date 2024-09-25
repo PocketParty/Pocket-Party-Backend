@@ -66,3 +66,13 @@ export const getByTagProdutoRepository = async(tag:string):Promise<Produto[]|nul
 	})
 	return resultProduto;
 }
+export const getBycatalogoIdProdutoRepository = async(id:number):Promise<Produto[]|null> => {
+	const restulProduto = await prisma.produtos.findMany({
+		where:{
+			catalogoId:{
+				equals:id
+			}
+		}
+	})
+	return restulProduto;
+}
