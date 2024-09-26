@@ -1,6 +1,7 @@
 services:
   db:
     image: postgres:latest
+    container_name: pocketpartydb
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: senha123
@@ -10,31 +11,31 @@ services:
     ports:
       - "5432:5432"
 
-  pgadmin:
-    image: dpage/pgadmin4:latest
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@admin.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - "80:80"
-    depends_on:
-      - db
-    volumes:
-      - ./configPgAdmin.json:/pgadmin4/servers.json
+  # pgadmin:
+  #   image: dpage/pgadmin4:latest
+  #   environment:
+  #     PGADMIN_DEFAULT_EMAIL: admin@admin.com
+  #     PGADMIN_DEFAULT_PASSWORD: admin
+  #   ports:
+  #     - "80:80"
+  #   depends_on:
+  #     - db
+  #   volumes:
+  #     - ./configPgAdmin.json:/pgadmin4/servers.json
 
-  authentication:
-    image: ghcr.io/pocketparty/authentication-service:latest
-    environment:
-      DB_USER: postgres
-      DB_NAME: postgres
-      DB_PASSWORD: senha123
-      DB_HOST: host.docker.internal
-      DB_PORT: 5432
-      DB_SSLMODE: disable
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
+  # authentication:
+  #   image: ghcr.io/pocketparty/authentication-service:latest
+  #   environment:
+  #     DB_USER: postgres
+  #     DB_NAME: postgres
+  #     DB_PASSWORD: senha123
+  #     DB_HOST: host.docker.internal
+  #     DB_PORT: 5432
+  #     DB_SSLMODE: disable
+  #   ports:
+  #     - "8080:8080"
+  #   depends_on:
+  #     - db
 
 volumes:
   postgres_data:
