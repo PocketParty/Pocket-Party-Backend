@@ -13,12 +13,7 @@ beforeAll(async () => {
 	prisma.$connect();
 });
 beforeEach(async () => {
-	await prisma.$executeRaw`DELETE FROM Catalogos;`
-	await prisma.$executeRaw`DELETE FROM Empresas;`
-	await prisma.$executeRaw`DELETE FROM Produtos;`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Catalogos';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Empresas';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Produtos';`
+	await prisma.$executeRaw`TRUNCATE TABLE "Empresas" RESTART IDENTITY CASCADE;`;
 	const empresaPostPutRequestDto: EmpresaPostPutRequestDto = {
 		"nome": "nome fantasia",
 		"endereco": "endereco fantasia",
@@ -49,12 +44,7 @@ beforeEach(async () => {
 
 
 afterEach(async () => {
-	await prisma.$executeRaw`DELETE FROM Catalogos;`
-	await prisma.$executeRaw`DELETE FROM Empresas;`
-	await prisma.$executeRaw`DELETE FROM Produtos;`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Catalogos';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Empresas';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Produtos';`
+	await prisma.$executeRaw`TRUNCATE TABLE "Empresas" RESTART IDENTITY CASCADE;`;
 
 });
 
@@ -74,7 +64,6 @@ describe('POST /produtos/adicionar',() => {
 			"descricao":'descricao'
 		}
 		const response = await request(app).post("/produtos/adicionar").send(produtoPostPutResquestDto);
-		console.log(response)
 		expect(response.status).toBe(201);
 		expect(response.body).toHaveProperty('preco');
 	})
