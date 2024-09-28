@@ -46,6 +46,7 @@ model Clientes {
     id             Int              @id @default(autoincrement())
     createdAt      DateTime         @default(now())
     nome           String
+    senha          String
     endereco       String
     cpf            String
     email          String
