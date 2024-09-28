@@ -9,17 +9,24 @@ Crie um arquivo **.env** com as seguinte variáveis:
 DATABASE_URL = "postgresql://postgres:senha123@localhost:5432/dev?schema=public"
 SECRET = suaChaveSecretaSuperSegura123!@#
 PORT = 3000
+DB_NAME=dev
 ```
 Crie um arquivo **.env.test.local** com as seguinte variáveis: 
 ```bash
 DATABASE_URL = "postgresql://postgres:senha123@localhost:5432/testdb?schema=public"
 SECRET = suaChaveSecretaSuperSegura123!@#
 PORT = 3001
+DB_NAME=testdb
 ```
-Rode o comando docker compose para subir o serviço do postgres
+Comando docker compose para subir o serviço do postgres
 
+Para o ambiente de teste
 ```bash
-docker compose up -d
+docker compose --env-file .env.test.local up -d
+```
+Para o ambiente de desenvolvimento
+```bash
+docker compose --env-file .env up -d
 ```
 ## Rodando as migrations do prisma
 Para o ambiente de desenvolvimento
