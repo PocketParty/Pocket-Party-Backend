@@ -20,14 +20,10 @@ DB_NAME=testdb
 ```
 Comando docker compose para subir o serviços
 
-Para o ambiente de teste
 ```bash
-docker compose --env-file .env.test.local up -d
+docker compose up -d
 ```
-Para o ambiente de desenvolvimento
-```bash
-docker compose --env-file .env up -d
-```
+
 ## Rodando as migrations do prisma
 Para o ambiente de desenvolvimento
 ```bash
