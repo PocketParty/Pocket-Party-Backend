@@ -6,21 +6,24 @@ npm install
 ## Configuração inicial
 Crie um arquivo **.env** com as seguinte variáveis: 
 ```bash
-DATABASE_URL = "postgresql://postgres:senha123@localhost:5432/dev?schema=public"
+DATABASE_URL = "postgresql://postgres:senha123@localhost:5432/devdb?schema=public"
 SECRET = suaChaveSecretaSuperSegura123!@#
 PORT = 3000
+DB_NAME=devdb
 ```
 Crie um arquivo **.env.test.local** com as seguinte variáveis: 
 ```bash
 DATABASE_URL = "postgresql://postgres:senha123@localhost:5432/testdb?schema=public"
 SECRET = suaChaveSecretaSuperSegura123!@#
 PORT = 3001
+DB_NAME=testdb
 ```
-Rode o comando docker compose para subir o serviço do postgres
+Comando docker compose para subir o serviços
 
 ```bash
 docker compose up -d
 ```
+
 ## Rodando as migrations do prisma
 Para o ambiente de desenvolvimento
 ```bash
