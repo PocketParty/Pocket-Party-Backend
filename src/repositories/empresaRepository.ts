@@ -1,3 +1,4 @@
+import { EmpresaPatchRequestDto } from '../dto/empresaDto/empresaPatchRequestDto';
 import { Empresa } from '../models/empresaModel';
 import { PrismaClient } from '@prisma/client';
 
@@ -34,6 +35,17 @@ export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empr
 	const resultEmpresa = await prisma.empresas.create({
 		data: {
 			...empresa
+		}
+	})
+	return resultEmpresa;
+};
+export const updateEmpresaRepository = async (id: number, empresaPatchRequestDto: EmpresaPatchRequestDto): Promise<Empresa | null> => {
+	const resultEmpresa = await prisma.empresas.update({
+		where: {
+			id
+		},
+		data: {
+			...empresaPatchRequestDto
 		}
 	})
 	return resultEmpresa;
