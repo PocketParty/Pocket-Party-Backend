@@ -22,10 +22,10 @@ export const pesquisarEmpresaPeloCnpjRepository = async (cnpj: string): Promise<
 	return resultEmpresa;
 };
 
-export const buscarAdminPeloUsernameRepository = async (username: string): Promise<Empresa | null> => {
+export const buscarAdminPeloEmailRepository = async (email: string): Promise<Empresa | null> => {
 	const resultEmpresa = await prisma.empresas.findFirst({
 		where: {
-			username
+			email
 		}
 	})
 	return resultEmpresa;

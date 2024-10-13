@@ -2,13 +2,13 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { EmpresaLoginRequestDTO } from '../../dto/empresaDto/EmpresaLoginRequestDTO';
 import { authError } from '../../error/authError';
-import { buscarAdminPeloUsernameRepository } from '../../repositories/empresaRepository';
+import { buscarAdminPeloEmailRepository } from '../../repositories/empresaRepository';
 
 
 const SECRET = process.env.SECRET;
 
 export const empresaLoginService = async (empresaLoginRequestDTO: EmpresaLoginRequestDTO): Promise<String> => {
-	const empresa = await buscarAdminPeloUsernameRepository(empresaLoginRequestDTO.username);
+	const empresa = await buscarAdminPeloEmailRepository(empresaLoginRequestDTO.email);
 	if (empresa === null) {
 		throw authError()
 	}
@@ -17,7 +17,7 @@ export const empresaLoginService = async (empresaLoginRequestDTO: EmpresaLoginRe
 		throw authError()
 	}
 	const payload = {
-		username: empresaLoginRequestDTO.username,
+		username: empresaLoginRequestDTO.email,
 		id: empresa.id
 	};
 	const token = jwt.sign(payload, SECRET!, { expiresIn: "1d" });
