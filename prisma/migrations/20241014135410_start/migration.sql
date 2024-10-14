@@ -10,6 +10,12 @@ CREATE TABLE "Empresas" (
     "email" TEXT NOT NULL,
     "username" TEXT NOT NULL,
     "senha" TEXT NOT NULL,
+    "atuacao" TEXT[] DEFAULT ARRAY[]::TEXT[],
+    "whatsappLink" TEXT,
+    "facebookLink" TEXT,
+    "instagramLink" TEXT,
+    "descricao" TEXT,
+    "eventos" TEXT[] DEFAULT ARRAY[]::TEXT[],
 
     CONSTRAINT "Empresas_pkey" PRIMARY KEY ("id")
 );
@@ -42,6 +48,7 @@ CREATE TABLE "Clientes" (
     "id" SERIAL NOT NULL,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "nome" TEXT NOT NULL,
+    "senha" TEXT NOT NULL,
     "endereco" TEXT NOT NULL,
     "cpf" TEXT NOT NULL,
     "email" TEXT NOT NULL,
