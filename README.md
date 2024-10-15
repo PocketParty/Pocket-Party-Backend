@@ -66,6 +66,6 @@ npm run dev
 3. Rodar o container do backend
 
    ```bash
-	docker run -d --name api-pocketparty -e DATABASE_URL="postgresql://postgres:senha123@pocketpartydb:5432/devdb?schema=public" -e SECRET="suaChaveSecretaSuperSegura123!@#" -e PORT=3000 -e DB_NAME=devdb -p 3000:3000 --link pocketpartydb:db fabioviniciusfsiqueira/pocketparty-backend:latest sh -c "npm run migrate:dev && npm run dev"
+	docker run -d --name api-pocketparty -e DATABASE_URL="postgresql://postgres:senha123@pocketpartydb:5432/devdb?schema=public" -e SECRET="suaChaveSecretaSuperSegura123" -e PORT=3000 -e DB_NAME=devdb -p 3000:3000 --link pocketpartydb:db fabioviniciusfsiqueira/pocketparty-backend:latest sh -c "npm run migrate:dev && npm run dev"
 
    ```
