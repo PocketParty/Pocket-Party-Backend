@@ -26,3 +26,53 @@ export const removerProdutoRepository = async (id: number): Promise<Produto | nu
 	})
 	return resultProduto;
 };
+
+export const getProdutoRepository = async (id:number): Promise<Produto | null> =>{
+	const resultProduto = await prisma.produtos.findUnique({
+		where: {
+			id
+		}
+	})
+	return resultProduto
+};
+
+export const getAllProdutoRepository = async (): Promise<Produto[]|null> => {
+	const resultProduto = await prisma.produtos.findMany()
+	return resultProduto;
+}
+
+export const atualizarProdutoRepository = async(id: number, produto:Produto):Promise<Produto|null> => {
+	const resutlProduto = await prisma.produtos.update({
+		where:{ 
+			id 
+		}, data:{
+			tags: produto.tags,
+			preco: produto.preco,
+			notaAvaliacao: produto.notaAvaliacao,
+			descricao: produto.descricao,
+			imagem: produto.imagem
+		}
+	})
+	return resutlProduto;
+}
+
+export const getByTagProdutoRepository = async(tag:string):Promise<Produto[]|null> =>{
+	const resultProduto = await prisma.produtos.findMany({
+		where:{
+			tags: {
+				contains:tag
+			}
+		}
+	})
+	return resultProduto;
+}
+export const getBycatalogoIdProdutoRepository = async(id:number):Promise<Produto[]|null> => {
+	const restulProduto = await prisma.produtos.findMany({
+		where:{
+			catalogoId:{
+				equals:id
+			}
+		}
+	})
+	return restulProduto;
+}

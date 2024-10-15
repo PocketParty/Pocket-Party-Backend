@@ -18,6 +18,12 @@ model Empresas {
     email          String           @unique
     username       String           @unique
     senha          String
+    atuacao        String[]         @default([])
+    whatsappLink   String?
+    facebookLink   String?
+    instagramLink  String?
+    descricao      String?
+    eventos        String[]         @default([])
     catalogo       Catalogos[]
     LojasFavoritas LojasFavoritas[]
 }
@@ -46,6 +52,7 @@ model Clientes {
     id             Int              @id @default(autoincrement())
     createdAt      DateTime         @default(now())
     nome           String
+    senha          String
     endereco       String
     cpf            String
     email          String

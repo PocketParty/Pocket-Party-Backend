@@ -5,20 +5,17 @@ import { EmpresaGetDeleteRequestDto } from "../src/dto/empresaDto/empresaGetDele
 import { EmpresaContatoPatchRequestDto } from "../src/dto/empresaDto/empresaContatoPatchRequestDto";
 import { EmpresaPostPutRequestDto } from "../src/dto/empresaDto/empresaPostPutRequestDto";
 import {app,server} from "../src/index"
+import { EmpresaLoginRequestDTO } from "../src/dto/empresaDto/EmpresaLoginRequestDTO";
 
 const prisma = new PrismaClient();
+let token:any;
 
 beforeAll(async () => {
 	prisma.$connect();
 });
 
 beforeEach(async () => {
-	await prisma.$executeRaw`DELETE FROM Empresas;`
-	await prisma.$executeRaw`DELETE FROM Catalogos;`
-	await prisma.$executeRaw`DELETE FROM Produtos;`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Empresas';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Catalogos';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Produtos';`
+	await prisma.$executeRaw`TRUNCATE TABLE "Empresas" RESTART IDENTITY CASCADE;`;
 	const empresaPostPutRequestDto: EmpresaPostPutRequestDto = {
 		"nome": "nome fantasia",
 		"endereco": "endereco fantasia",
@@ -29,20 +26,17 @@ beforeEach(async () => {
 		"cep": "cep fantasia",
 		"senha": "fantasia"
 	}
-	await prisma.empresas.create({
-		data: {
-			...empresaPostPutRequestDto
-		}
-	});
+	await request(app).post('/empresas/adicionar').send(empresaPostPutRequestDto);
+	const empresaLoginRequestDTO: EmpresaLoginRequestDTO = {
+		'username': 'username fantasia',
+		'senha': 'fantasia'
+	}
+	const response = await request(app).post('/auth/login/empresa').send(empresaLoginRequestDTO);
+	token = response.body;
 });
 
 afterEach(async () => {
-	await prisma.$executeRaw`DELETE FROM Empresas;`
-	await prisma.$executeRaw`DELETE FROM Catalogos;`
-	await prisma.$executeRaw`DELETE FROM Produtos;`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Empresas';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Catalogos';`
-	await prisma.$executeRaw`DELETE FROM sqlite_sequence WHERE name='Produtos';`
+	await prisma.$executeRaw`TRUNCATE TABLE "Empresas" RESTART IDENTITY CASCADE;`;
 });
 
 afterAll(async () => {
@@ -51,20 +45,8 @@ afterAll(async () => {
 });
 
 describe('GET /empresas/pesquisar', () => {
-	it('Pesquisa um empresa que nao existe', async () => {
-		const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = {
-			'id': 100
-		}
-		const response = await request(app).get('/empresas/pesquisar').send(empresaGetDeleteRequestDto);
-
-		expect(response.status).toBe(404);
-		expect(response.body).toEqual({ message: 'Empresa não exsite!' });
-	});
 	it('Pesquisa um empresa que existe', async () => {
-		const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = {
-			'id': 1
-		}
-		const response = await request(app).get('/empresas/pesquisar').send(empresaGetDeleteRequestDto);
+		const response = await request(app).get('/empresas/pesquisar').set('Authorization', `${token}`);
 
 		expect(response.status).toBe(200);
 		expect(response.body).toHaveProperty('cnpj', 'cnpj fantasia');
@@ -72,20 +54,11 @@ describe('GET /empresas/pesquisar', () => {
 });
 
 describe('DELETE /empresas/remover', () => {
-	it('Remove uma empresa que nao existe', async () => {
-		const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = {
-			'id': 100
-		}
-		const response = await request(app).delete('/empresas/remover').send(empresaGetDeleteRequestDto);
-
-		expect(response.status).toBe(404);
-		expect(response.body).toEqual({ message: 'Empresa não exsite!' });
-	});
 	it('Remove uma empresa que existe', async () => {
 		const empresaGetDeleteRequestDto: EmpresaGetDeleteRequestDto = {
 			'id': 1
 		}
-		const response = await request(app).delete('/empresas/remover').send(empresaGetDeleteRequestDto);
+		const response = await request(app).delete('/empresas/remover').set('Authorization', `${token}`);
 		
 		expect(response.status).toBe(204);
 		expect(response.body).toEqual({});
@@ -93,22 +66,11 @@ describe('DELETE /empresas/remover', () => {
 });
 
 describe('PATCH /empresas/atualizar/contato', () => {
-	it('Atualiza o contato de uma empresa que não existe', async () => {
-		const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = {
-			'id': 100,
-			'telefone': 'telefone novo'
-		}
-		const response = await request(app).patch('/empresas/atualizar/contato').send(empresaContatoPatchRequestDto);
-		
-		expect(response.status).toBe(404);
-		expect(response.body).toEqual({ message: 'Empresa não exsite!' });
-	});
 	it('Atualiza o contato de uma empresa que existe', async () => {
 		const empresaContatoPatchRequestDto: EmpresaContatoPatchRequestDto = {
-			'id': 1,
 			'telefone': 'telefone novo'
 		}
-		const response = await request(app).patch('/empresas/atualizar/contato').send(empresaContatoPatchRequestDto);
+		const response = await request(app).patch('/empresas/atualizar/contato').send(empresaContatoPatchRequestDto).set('Authorization', `${token}`);;
 		
 		expect(response.status).toBe(201);
 		expect(response.body).toHaveProperty('telefone', 'telefone novo');
