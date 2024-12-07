@@ -105,3 +105,6 @@ ALTER TABLE "product_tags" ADD CONSTRAINT "product_tags_tag_id_fkey" FOREIGN KEY
 
 -- AddForeignKey
 ALTER TABLE "products" ADD CONSTRAINT "products_enterprise_id_fkey" FOREIGN KEY ("enterprise_id") REFERENCES "enterprises"("enterprise_id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+--populate_tags
+INSERT INTO "tags" (tag_name) VALUES('Aniversário'),('Casamento'),('Formatura'),('Festa Infantil'),('Pool Party'),('Noivado'),('Cerimônias'),('Cerimônias Religiosas'),('Balões'),('Serviços'),('Bebidas'),('Buffet'),('Descartáveis'),('Decoração'),('Brinquedos');
