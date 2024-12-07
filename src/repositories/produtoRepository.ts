@@ -4,33 +4,45 @@ import { Produto } from '../models/produtosModel';
 const prisma = new PrismaClient();
 
 export const adicionarProdutoRepository = async (produto: Produto): Promise<Produto | null> => {
-	const { catalogoId, imagem, preco, notaAvaliacao, descricao, tags } = produto
+	const { id,enterprise_id,name,price,photo_url,description } = produto
+	let now = Date.now
 	const resultProduto = await prisma.produtos.create({
 		data: {
-			catalogoId,
-			imagem,
-			preco,
-			notaAvaliacao,
-			descricao,
-			tags,
+			id,
+			enterprise_id,
+			name,
+			price,
+			photo_url,
+			description,
+			created_at:now,
+			updated_at:now
 		}
 	})
 	return resultProduto;
 };
 
-export const removerProdutoRepository = async (id: number): Promise<Produto | null> => {
+export const removerProdutoRepository = async (id_prod: number): Promise<Produto | null> => {
 	const resultProduto = await prisma.produtos.delete({
 		where: {
-			id
+			id_prod
 		}
 	})
 	return resultProduto;
 };
 
-export const getProdutoRepository = async (id:number): Promise<Produto | null> =>{
+export const getProdutoRepository = async (id_prod:number): Promise<Produto | null> =>{
 	const resultProduto = await prisma.produtos.findUnique({
 		where: {
-			id
+			id:id_prod
+		}
+	})
+	return resultProduto
+};
+
+export const getProdutoByEnterpriseRepository = async (ent_id:number): Promise<Produto[] | null> =>{
+	const resultProduto = await prisma.produtos.findMany({
+		where: {
+			enterprise_id:ent_id
 		}
 	})
 	return resultProduto
@@ -41,38 +53,44 @@ export const getAllProdutoRepository = async (): Promise<Produto[]|null> => {
 	return resultProduto;
 }
 
-export const atualizarProdutoRepository = async(id: number, produto:Produto):Promise<Produto|null> => {
+export const atualizarProdutoRepository = async(id_prod: number, produto:Produto):Promise<Produto|null> => {
 	const resutlProduto = await prisma.produtos.update({
 		where:{ 
-			id 
+			id:id_prod
 		}, data:{
-			tags: produto.tags,
-			preco: produto.preco,
-			notaAvaliacao: produto.notaAvaliacao,
-			descricao: produto.descricao,
-			imagem: produto.imagem
+			name: produto.name,
+			price: produto.price,
+			photo_url: produto.photo_url,
+			description: produto.description,
+			updated_at: Date.now
 		}
 	})
 	return resutlProduto;
 }
 
-export const getByTagProdutoRepository = async(tag:string):Promise<Produto[]|null> =>{
+export const getByTagProdutoRepository = async(tag_id:number):Promise<Produto[]|null> =>{
 	const resultProduto = await prisma.produtos.findMany({
 		where:{
-			tags: {
-				contains:tag
+			tags:{
+				some:{
+					tag_id:tag_id
+				}
 			}
 		}
 	})
 	return resultProduto;
 }
-export const getBycatalogoIdProdutoRepository = async(id:number):Promise<Produto[]|null> => {
-	const restulProduto = await prisma.produtos.findMany({
+
+export const getByEnterpriseAndByTagProdutoRepository = async(ent_id:number,tag_id:number):Promise<Produto[]|null> =>{
+	const resultProduto = await prisma.produtos.findMany({
 		where:{
-			catalogoId:{
-				equals:id
+			enterprise_id:ent_id,
+			tags:{
+				some:{
+					tag_id:tag_id
+				}
 			}
 		}
 	})
-	return restulProduto;
+	return resultProduto;
 }
