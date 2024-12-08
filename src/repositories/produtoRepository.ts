@@ -4,18 +4,21 @@ import { Produto } from '../models/produtosModel';
 const prisma = new PrismaClient();
 
 export const adicionarProdutoRepository = async (produto: Produto): Promise<Produto | null> => {
-	const { id,enterprise_id,name,price,photo_url,description } = produto
+	const { id,enterprise_id,name,price,photo_url,description,tagsId } = produto
 	let now = Date.now
 	const resultProduto = await prisma.produtos.create({
 		data: {
-			id,
-			enterprise_id,
-			name,
-			price,
-			photo_url,
-			description,
+			id:id,
+			enterprise_id:enterprise_id,
+			name:name,
+			price:price,
+			photo_url:photo_url,
+			description:description,
 			created_at:now,
-			updated_at:now
+			updated_at:now,
+			tags: {
+				connect:tagsId.map(id => ({id}))
+			}
 		}
 	})
 	return resultProduto;
