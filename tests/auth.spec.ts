@@ -8,24 +8,22 @@ import { EmpresaLoginRequestDTO } from '../src/dto/empresaDto/EmpresaLoginReques
 const prisma = new PrismaClient();
 
 beforeEach(async () => {
-	await prisma.$executeRaw`TRUNCATE TABLE "Empresas" RESTART IDENTITY CASCADE;`;
+	await prisma.$executeRaw`TRUNCATE TABLE "enterprises" RESTART IDENTITY CASCADE;`;
 
 	const empresaPostPutRequestDto: EmpresaPostPutRequestDto = {
-		"nome": "nome fantasia",
-		"endereco": "endereco fantasia",
-		"telefone": "contato fantasia",
-		"cnpj": "cnpj fantasia",
-		"email": "email fantasia",
+		"name": "nome fantasia",
 		"username": "username fantasia",
-		"cep": "cep fantasia",
-		"senha": "fantasia"
+		"cnpj": "cnpj fantasia",
+		"password_hash": "fantasia",
+		"atuacao": [],
+		"descricao": null
 	}
 	await request(app).post('/empresas/adicionar').send(empresaPostPutRequestDto);
 
 });
 
 afterEach(async () => {
-	await prisma.$executeRaw`TRUNCATE TABLE "Empresas" RESTART IDENTITY CASCADE;`;
+	await prisma.$executeRaw`TRUNCATE TABLE "enterprises" RESTART IDENTITY CASCADE;`;
 });
 
 afterAll(async () => {
@@ -37,7 +35,7 @@ describe('POST /auth/login/empresa', () => {
 	it('Login realizado com sucesso', async () => {
 		const empresaLoginRequestDTO: EmpresaLoginRequestDTO = {
 			'username': 'username fantasia',
-			'senha': 'fantasia'
+			'password_hash': "fantasia"
 		}
 		const response = await request(app).post('/auth/login/empresa').send(empresaLoginRequestDTO);
 		expect(response.status).toBe(201);
@@ -47,7 +45,7 @@ describe('POST /auth/login/empresa', () => {
 	it('Login passado incorreto', async () => {
 		const empresaLoginRequestDTO: EmpresaLoginRequestDTO = {
 			'username': 'username fant',
-			'senha': 'fantasia'
+			'password_hash': "fantasia"
 		}
 		const response = await request(app).post('/auth/login/empresa').send(empresaLoginRequestDTO);
 		expect(response.status).toBe(401);
@@ -56,7 +54,7 @@ describe('POST /auth/login/empresa', () => {
 	it('Senha passado incorreto', async () => {
 		const empresaLoginRequestDTO: EmpresaLoginRequestDTO = {
 			'username': 'username fantasia',
-			'senha': 'fant'
+			'password_hash': "fant"
 		}
 		const response = await request(app).post('/auth/login/empresa').send(empresaLoginRequestDTO);
 		expect(response.status).toBe(401);
