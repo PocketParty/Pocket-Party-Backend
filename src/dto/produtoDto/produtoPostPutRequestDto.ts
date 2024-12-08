@@ -1,8 +1,11 @@
 export interface ProdutoPostPutRequestDto {
-	catalogoId: number;
-	preco: number
-	imagem: string;
-	notaAvaliacao: number
-	descricao: string
-	tags: string
+	id: number;
+	enterprise_id: number;
+	name: string;
+	price: number;
+	photo_url: string;
+	description: string;
+	tagsId: number[];
+	created_at: Date;
+	updated_at: Date;
 }
