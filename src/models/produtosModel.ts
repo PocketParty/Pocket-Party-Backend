@@ -5,6 +5,7 @@ export interface Produto {
 	price: number;
 	photo_url: string;
 	description: string;
+	tagsId: number[]
 	created_at: Date;
-	updated_at:Date;
+	updated_at: Date;
 }
