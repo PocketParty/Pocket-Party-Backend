@@ -8,6 +8,6 @@ export const pesquisarEmpresaService = async (empresaGetDeleteRequestDto: Empres
 	if (empresaPesquisada === null) {
 		throw EmpresaNaoExiste()
 	}
-	const { senha, ...empresaDto } = empresaPesquisada!;
+	const { password_hash, ...empresaDto } = empresaPesquisada!;
 	return empresaDto;
 };
