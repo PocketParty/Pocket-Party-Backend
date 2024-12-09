@@ -66,13 +66,24 @@ export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empr
 	return resultEmpresa;
 };
 export const updateEmpresaRepository = async (enterprise_id: number, empresaPatchRequestDto: EmpresaPatchRequestDto): Promise<Empresa | null> => {
+	const {tags, atuacao, descricao} = empresaPatchRequestDto
 	const resultEmpresa = await prisma.enterprises.update({
 		where: {
 			enterprise_id
 		},
 		data: {
-			...empresaPatchRequestDto
-		}
+			atuacao,
+			descricao,
+			enterprises_tags: {
+			  create: tags.map((tag) => ({
+				tags: {
+				  connect: {
+					tag_name: tag,
+				  },
+				},
+			  })),
+			},
+		  },
 	})
 	return resultEmpresa;
 };

@@ -110,7 +110,8 @@ describe('PATCH /edit-empresa/:id', () => {
 	it('Atualiza uma empresa que existe', async () => {
 		const empresaPatchRequestDto: EmpresaPatchRequestDto = {
 			atuacao: [],
-			descricao: "descrição"
+			descricao: "descrição",
+			tags: ["Casamento","Formatura","Noivado"]
 		}
 		const response = await request(app).patch('/empresas/edit-empresa/1').send(empresaPatchRequestDto);
 		
@@ -120,7 +121,8 @@ describe('PATCH /edit-empresa/:id', () => {
 	it('Atualiza uma empresa que não existe', async () => {
 		const empresaPatchRequestDto: EmpresaPatchRequestDto = {
 			atuacao: [],
-			descricao: "descrição"
+			descricao: "descrição",
+			tags: []
 		}
 		const response = await request(app).patch('/empresas/edit-empresa/1000').send(empresaPatchRequestDto);
 		
