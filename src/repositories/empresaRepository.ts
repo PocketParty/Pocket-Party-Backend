@@ -17,6 +17,28 @@ export const pesquisarTodasEmpresaRepository = async (): Promise<Empresa[] | nul
 	return resultEmpresa;
 };
 
+export const pesquisarTodasEmpresaPelaTagRepository = async (tagName: string): Promise<Empresa[] | null> => {
+	const resultEmpresas = await prisma.enterprises.findMany({
+		where: {
+			enterprises_tags: {
+				some: {
+					tags: {
+						tag_name: tagName,
+					},
+				},
+			},
+		},
+		include: {
+			enterprises_tags: {
+				include: {
+					tags: true,
+				},
+			},
+		},
+	});
+	return resultEmpresas;
+};
+
 export const pesquisarEmpresaPeloCnpjRepository = async (cnpj: string): Promise<Empresa | null> => {
 	const resultEmpresa = await prisma.enterprises.findFirst({
 		where: {

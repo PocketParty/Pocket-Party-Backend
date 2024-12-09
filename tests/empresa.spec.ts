@@ -3,12 +3,12 @@ import request from 'supertest';
 import { PrismaClient } from '@prisma/client';
 import { EmpresaGetDeleteRequestDto } from "../src/dto/empresaDto/empresaGetDeleteRequestDto";
 import { EmpresaPostPutRequestDto } from "../src/dto/empresaDto/empresaPostPutRequestDto";
-import {app,server} from "../src/index"
+import { app, server } from "../src/index"
 import { EmpresaLoginRequestDTO } from "../src/dto/empresaDto/EmpresaLoginRequestDTO";
 import { EmpresaPatchRequestDto } from "../src/dto/empresaDto/empresaPatchRequestDto";
 
 const prisma = new PrismaClient();
-let token:any;
+let token: any;
 
 beforeAll(async () => {
 	prisma.$connect();
@@ -58,6 +58,40 @@ describe('GET /pesquisar/todas', () => {
 		expect(response.status).toBe(200);
 		expect(response.body).toBeInstanceOf(Array);
 		expect(response.body.length).toBe(1);
+	});
+});
+
+describe('GET /pesquisar/:tag', () => {
+	it('Pesquisa todas empresa pela tag casamento que existe', async () => {
+		await prisma.enterprises.create({
+			data: {
+				cnpj: "123",
+				name: "123",
+				password_hash: "123",
+				username: "123",
+				enterprises_tags: {
+					create: [
+						{
+							tags: {
+								connect: {
+									tag_name: "Casamento",
+								},
+							},
+						},
+					],
+				},
+			},
+		});
+		const response = await request(app).get('/empresas/pesquisar/Casamento');
+		expect(response.body).toBeInstanceOf(Array);
+		expect(response.body.length).toBe(1);
+	});
+	it('Pesquisa todas empresa pela tag openparty que nao existe', async () => {
+
+		const response = await request(app).get('/empresas/pesquisar/openparty');
+
+		expect(response.body).toBeInstanceOf(Array);
+		expect(response.body.length).toBe(0);
 	});
 });
 

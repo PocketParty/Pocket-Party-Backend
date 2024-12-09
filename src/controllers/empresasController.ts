@@ -8,6 +8,7 @@ import { autenticarTokenEmpresa } from '../middlewares/autenticarTokenEmpresa';
 import { EmpresaPatchRequestDto } from '../dto/empresaDto/empresaPatchRequestDto';
 import { EditEmpresaService } from '../services/empresaServices/EditEmpresaService';
 import { pesquisarTodasEmpresaService } from '../services/empresaServices/pesquisarTodasEmpresaService';
+import { pesquisarTodasEmpresaPelaTagService } from '../services/empresaServices/pesquisarTodasEmpresaPelaTagService';
 
 const router = Router();
 
@@ -19,6 +20,12 @@ router.get('/pesquisar', autenticarTokenEmpresa, async (req: Request, res: Respo
 
 router.get('/pesquisar/todas', async (req: Request, res: Response) => {
 	const result = await pesquisarTodasEmpresaService();
+	return res.status(200).json(result);
+});
+
+router.get('/pesquisar/:tag', async (req: Request, res: Response) => {
+	const tag = req.params.tag;
+	const result = await pesquisarTodasEmpresaPelaTagService(tag);
 	return res.status(200).json(result);
 });
 
