@@ -4,21 +4,44 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
-export const pesquisarEmpresaPeloIdRepository = async (id: number): Promise<Empresa | null> => {
-	const resultEmpresa = await prisma.empresas.findFirst({
+export const pesquisarEmpresaPeloIdRepository = async (enterprise_id: number): Promise<Empresa | null> => {
+	const resultEmpresa = await prisma.enterprises.findFirst({
 		where: {
-			id
-		}
+			enterprise_id
+		},
+		include: { enterprises_tags: { include: { tags: true } } }
 	})
 	return resultEmpresa;
 };
 export const pesquisarTodasEmpresaRepository = async (): Promise<Empresa[] | null> => {
-	const resultEmpresa = await prisma.empresas.findMany({})
+	const resultEmpresa = await prisma.enterprises.findMany({})
 	return resultEmpresa;
 };
 
+export const pesquisarTodasEmpresaPelaTagRepository = async (tagName: string): Promise<Empresa[] | null> => {
+	const resultEmpresas = await prisma.enterprises.findMany({
+		where: {
+			enterprises_tags: {
+				some: {
+					tags: {
+						tag_name: tagName,
+					},
+				},
+			},
+		},
+		include: {
+			enterprises_tags: {
+				include: {
+					tags: true,
+				},
+			},
+		},
+	});
+	return resultEmpresas;
+};
+
 export const pesquisarEmpresaPeloCnpjRepository = async (cnpj: string): Promise<Empresa | null> => {
-	const resultEmpresa = await prisma.empresas.findFirst({
+	const resultEmpresa = await prisma.enterprises.findFirst({
 		where: {
 			cnpj
 		}
@@ -26,51 +49,51 @@ export const pesquisarEmpresaPeloCnpjRepository = async (cnpj: string): Promise<
 	return resultEmpresa;
 };
 
-export const buscarAdminPeloEmailRepository = async (email: string): Promise<Empresa | null> => {
-	const resultEmpresa = await prisma.empresas.findFirst({
+export const buscarAdminPeloUserNameRepository = async (username: string): Promise<Empresa | null> => {
+	const resultEmpresa = await prisma.enterprises.findFirst({
 		where: {
-			email
+			username
 		}
 	})
 	return resultEmpresa;
 };
 
 export const adicionarEmpresaRepository = async (empresa: Empresa): Promise<Empresa | null> => {
-	const resultEmpresa = await prisma.empresas.create({
+	const resultEmpresa = await prisma.enterprises.create({
 		data: {
 			...empresa
 		}
 	})
 	return resultEmpresa;
 };
-export const updateEmpresaRepository = async (id: number, empresaPatchRequestDto: EmpresaPatchRequestDto): Promise<Empresa | null> => {
-	const resultEmpresa = await prisma.empresas.update({
+export const updateEmpresaRepository = async (enterprise_id: number, empresaPatchRequestDto: EmpresaPatchRequestDto): Promise<Empresa | null> => {
+	const {tags, atuacao, descricao} = empresaPatchRequestDto
+	const resultEmpresa = await prisma.enterprises.update({
 		where: {
-			id
+			enterprise_id
 		},
 		data: {
-			...empresaPatchRequestDto
-		}
+			atuacao,
+			descricao,
+			enterprises_tags: {
+			  create: tags.map((tag) => ({
+				tags: {
+				  connect: {
+					tag_name: tag,
+				  },
+				},
+			  })),
+			},
+		  },
+		  include: { enterprises_tags: { include: { tags: true } } }
 	})
 	return resultEmpresa;
 };
 
-export const removerEmpresaRepository = async (id: number): Promise<Empresa | null> => {
-	const resultEmpresa = await prisma.empresas.delete({
+export const removerEmpresaRepository = async (enterprise_id: number): Promise<Empresa | null> => {
+	const resultEmpresa = await prisma.enterprises.delete({
 		where: {
-			id
-		}
-	})
-	return resultEmpresa;
-};
-
-export const atualizarContatoEmpresaRepository = async (id: number, telefone: string): Promise<Empresa | null> => {
-	const resultEmpresa = await prisma.empresas.update({
-		where: {
-			id
-		},
-		data: {
-			telefone
+			enterprise_id
 		}
 	})
 	return resultEmpresa;

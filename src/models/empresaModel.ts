@@ -1,11 +1,21 @@
 export interface Empresa {
-	id?: number;
-	nome: string;
-	endereco: string;
-	telefone: string;
-	cnpj: string;
-	email: string;
+	enterprise_id?: number;
 	username: string;
-	cep: string;
-	senha: string;
+	password_hash: string;
+	name: string;
+	cnpj: string;
+	atuacao: string[];
+	descricao: string | null;
+	tags?: Tag[];
+}
+
+export interface Tag {
+    tag_id: number;
+    tag_name: string;
+    empresas?: Empresa[];
+}
+
+export interface EnterpriseTag {
+    enterprise_id: number;
+    tag_id: number;
 }
