@@ -1,5 +1,6 @@
 import { PrismaClient } from '@prisma/client';
 import { Produto } from '../models/produtosModel';
+import { Tag } from '../models/tagModel';
 
 const prisma = new PrismaClient();
 
@@ -96,4 +97,24 @@ export const getByEnterpriseAndByTagProdutoRepository = async(ent_id:number,tag_
 		}
 	})
 	return resultProduto;
+}
+
+export const getTagsByProdutoRepository = async(ent_id:number):Promise<Tag[]|null> =>{
+	const resultProduto = await prisma.products.findFirst({
+		where:{
+			enterprise_id:ent_id,
+		},
+		include:{
+			product_tags: true,
+		}
+	})
+	const allTagsIds = resultProduto?.product_tags.map((tag) => tag.tag_id)
+	const finalTags = await prisma.product_tags.findMany({
+		where:{
+			tag_id: {
+				in: allTagsIds
+			}
+		}
+	})
+	return finalTags
 }

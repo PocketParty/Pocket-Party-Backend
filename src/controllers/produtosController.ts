@@ -7,6 +7,7 @@ import { getByTagProdutoService } from '../services/produtoService/getByTagProdu
 import { atualizarProdutoService } from '../services/produtoService/atualizarProdutoService';
 import { getByEnterpriseIdProdutoService } from '../services/produtoService/getByEnterpriseIdProdutoService ';
 import { getByEnterpriseAndByTagProdutoRepository } from '../repositories/produtoRepository';
+import { getAllTagsByProdutoService } from '../services/produtoService/getAllTagsByProdutoService';
 const router = Router();
 //Add produto
 router.post('/adicionar', async (req: Request, res: Response) => {
@@ -43,6 +44,11 @@ router.get('/getByEnterprise/:id',async(req:Request,res:Response)=>{
 // get many vy enterprise id and tag id
 router.get('/getByEnterprise/:id/byTag/:tagId',async(req:Request,res:Response)=>{
 	const result = await getByEnterpriseAndByTagProdutoRepository(Number(req.params.id),Number(req.params.tagId));
+	return res.status(200).json(result)
+})
+// get all tags by produto id
+router.get('/getAllTags/:id', async (req:Request,res:Response)=>{
+	const result = await getAllTagsByProdutoService(Number(req.params.id));
 	return res.status(200).json(result)
 })
 export default router;
