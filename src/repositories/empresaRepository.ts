@@ -8,7 +8,8 @@ export const pesquisarEmpresaPeloIdRepository = async (enterprise_id: number): P
 	const resultEmpresa = await prisma.enterprises.findFirst({
 		where: {
 			enterprise_id
-		}
+		},
+		include: { enterprises_tags: { include: { tags: true } } }
 	})
 	return resultEmpresa;
 };
@@ -84,6 +85,7 @@ export const updateEmpresaRepository = async (enterprise_id: number, empresaPatc
 			  })),
 			},
 		  },
+		  include: { enterprises_tags: { include: { tags: true } } }
 	})
 	return resultEmpresa;
 };
