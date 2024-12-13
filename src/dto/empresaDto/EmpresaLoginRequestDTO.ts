@@ -1,4 +1,4 @@
 export interface EmpresaLoginRequestDTO {
-	email: string;
-	senha: string;
+	username: string;
+	password_hash: string;
 }
