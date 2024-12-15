@@ -5,7 +5,7 @@ import {getProdutoService} from '../services/produtoService/getProdutoService';
 import { getAllProdutoService } from '../services/produtoService/getAllProdutoService';
 import { getByTagProdutoService } from '../services/produtoService/getByTagProdutoService';
 import { atualizarProdutoService } from '../services/produtoService/atualizarProdutoService';
-import { getBycatalogoIdProdutoService, getByEnterpriseIdProdutoService } from '../services/produtoService/getByEnterpriseIdProdutoService ';
+import { getByEnterpriseIdProdutoService } from '../services/produtoService/getByEnterpriseIdProdutoService ';
 import { getByEnterpriseAndByTagProdutoRepository } from '../repositories/produtoRepository';
 const router = Router();
 //Add produto
