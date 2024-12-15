@@ -1,10 +1,9 @@
 export interface EmpresaPostPutRequestDto {
-	nome: string;
-	endereco: string;
-	telefone: string;
-	cnpj: string;
-	email: string;
+	enterprise_id?: number;
 	username: string;
-	cep: string;
-	senha: string;
+	password_hash: string;
+	name: string;
+	cnpj: string;
+	atuacao: string[];
+	descricao: string | null;
 }

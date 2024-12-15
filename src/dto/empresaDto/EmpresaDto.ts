@@ -1,9 +1,8 @@
 export interface EmpresaDto {
-	nome: string;
-	endereco: string;
-	telefone: string;
-	cnpj: string;
-	email: string;
+	enterprise_id?: number;
 	username: string;
-	cep: string;
+	name: string;
+	cnpj: string;
+	atuacao: string[];
+	descricao: string | null;
 }
