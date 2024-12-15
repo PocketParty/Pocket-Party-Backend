@@ -7,6 +7,7 @@ import { getByTagProdutoService } from '../services/produtoService/getByTagProdu
 import { atualizarProdutoService } from '../services/produtoService/atualizarProdutoService';
 import { getByEnterpriseIdProdutoService } from '../services/produtoService/getByEnterpriseIdProdutoService ';
 import { getByEnterpriseAndByTagProdutoRepository } from '../repositories/produtoRepository';
+import { ProdutoPatchReqDTO } from '../dto/produtoDto/produtoPatchReqDTO';
 const router = Router();
 //Add produto
 router.post('/adicionar', async (req: Request, res: Response) => {
@@ -26,13 +27,13 @@ router.get('/get',async (req:Request,res:Response) => {
 })
 //update
 router.post('/atualizar/:id',async (req:Request, res:Response)=>{
-	const produtoPostPutRequestDto: ProdutoPostPutRequestDto = req.body;
-	const result = await atualizarProdutoService(Number(req.params.id),produtoPostPutRequestDto)
+	const produtoPatchReqDTO: ProdutoPatchReqDTO = req.body;
+	const result = await atualizarProdutoService(Number(req.params.id),produtoPatchReqDTO)
 	return res.status(200).json(result)
 })
 // get by tag id 
-router.get('/getByTag/:id',async (req:Request,res:Response)=>{
-	const result = await getByTagProdutoService(Number(req.params.id));
+router.get('/getByTag/:tag',async (req:Request,res:Response)=>{
+	const result = await getByTagProdutoService(req.params.tag);
 	return res.status(200).json(result)
 })
 // get many by enterprise id
@@ -41,8 +42,8 @@ router.get('/getByEnterprise/:id',async(req:Request,res:Response)=>{
 	return res.status(200).json(result)
 })
 // get many vy enterprise id and tag id
-router.get('/getByEnterprise/:id/byTag/:tagId',async(req:Request,res:Response)=>{
-	const result = await getByEnterpriseAndByTagProdutoRepository(Number(req.params.id),Number(req.params.tagId));
+router.get('/getByEnterprise/:id/byTag/:tag',async(req:Request,res:Response)=>{
+	const result = await getByEnterpriseAndByTagProdutoRepository(Number(req.params.id),req.params.tagId);
 	return res.status(200).json(result)
 })
 export default router;

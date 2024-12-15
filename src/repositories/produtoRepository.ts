@@ -1,99 +1,119 @@
 import { PrismaClient } from '@prisma/client';
 import { Produto } from '../models/produtosModel';
+import { ProdutoPatchReqDTO } from '../dto/produtoDto/produtoPatchReqDTO';
 
 const prisma = new PrismaClient();
 
 export const adicionarProdutoRepository = async (produto: Produto): Promise<Produto | null> => {
-	const { id,enterprise_id,name,price,photo_url,description,tagsId } = produto
-	let now = Date.now
-	const resultProduto = await prisma.produtos.create({
+	const resultProduto = await prisma.products.create({
 		data: {
-			id:id,
-			enterprise_id:enterprise_id,
-			name:name,
-			price:price,
-			photo_url:photo_url,
-			description:description,
-			created_at:now,
-			updated_at:now,
-			tags: {
-				connect:tagsId.map(id => ({id}))
-			}
+			...produto	
 		}
 	})
 	return resultProduto;
 };
 
-export const removerProdutoRepository = async (id_prod: number): Promise<Produto | null> => {
-	const resultProduto = await prisma.produtos.delete({
+export const removerProdutoRepository = async (product_id: number): Promise<Produto | null> => {
+	const resultProduto = await prisma.products.delete({
 		where: {
-			id_prod
+			product_id
 		}
 	})
 	return resultProduto;
 };
 
-export const getProdutoRepository = async (id_prod:number): Promise<Produto | null> =>{
-	const resultProduto = await prisma.produtos.findUnique({
+export const getProdutoRepository = async (product_id:number): Promise<Produto | null> =>{
+	const resultProduto = await prisma.products.findUnique({
 		where: {
-			id:id_prod
+			product_id
 		}
 	})
 	return resultProduto
 };
 
-export const getProdutoByEnterpriseRepository = async (ent_id:number): Promise<Produto[] | null> =>{
-	const resultProduto = await prisma.produtos.findMany({
+export const getProdutoByEnterpriseRepository = async (enterprise_id:number): Promise<Produto[] | null> =>{
+	const resultProduto = await prisma.products.findMany({
 		where: {
-			enterprise_id:ent_id
+			enterprise_id
 		}
 	})
 	return resultProduto
 };
 
 export const getAllProdutoRepository = async (): Promise<Produto[]|null> => {
-	const resultProduto = await prisma.produtos.findMany()
+	const resultProduto = await prisma.products.findMany()
 	return resultProduto;
 }
 
-export const atualizarProdutoRepository = async(id_prod: number, produto:Produto):Promise<Produto|null> => {
-	const resutlProduto = await prisma.produtos.update({
+export const atualizarProdutoRepository = async(product_id: number, produtoPatchReqDTO:ProdutoPatchReqDTO):Promise<Produto|null> => {
+	const {name,price,photo_url,description,tags} = produtoPatchReqDTO
+	const resutlProduto = await prisma.products.update({
 		where:{ 
-			id:id_prod
-		}, data:{
-			name: produto.name,
-			price: produto.price,
-			photo_url: produto.photo_url,
-			description: produto.description,
-			updated_at: Date.now
-		}
+			product_id
+		}, 
+		data:{
+			name: name,
+			price: price,
+			photo_url: photo_url,
+			description: description,
+			updated_at: String(Date.now),
+			product_tags:{
+				create: tags.map((tag)=>({
+					tags: {
+						connect:{
+							tag_name: tag,
+						},
+					},
+				})),
+			},
+		},
+		include: {product_tags: {include: { tags: true}}}
 	})
 	return resutlProduto;
 }
 
-export const getByTagProdutoRepository = async(tag_id:number):Promise<Produto[]|null> =>{
-	const resultProduto = await prisma.produtos.findMany({
+export const getByTagProdutoRepository = async(tagName:string):Promise<Produto[]|null> =>{
+	
+	const resultProduto = await prisma.products.findMany({
 		where:{
-			tags:{
+			product_tags:{
 				some:{
-					tag_id:tag_id
-				}
-			}
-		}
+					tags:{
+						tag_name: tagName,
+					},
+				},
+			},
+		},
+		include: {
+			product_tags:{
+				include:{
+					tags:true
+				},
+			},
+		},
 	})
 	return resultProduto;
 }
 
-export const getByEnterpriseAndByTagProdutoRepository = async(ent_id:number,tag_id:number):Promise<Produto[]|null> =>{
-	const resultProduto = await prisma.produtos.findMany({
+export const getByEnterpriseAndByTagProdutoRepository = async(ent_id:number,tagName:string):Promise<Produto[]|null> =>{
+	const resultProduto = await prisma.products.findMany({
 		where:{
 			enterprise_id:ent_id,
-			tags:{
+			product_tags:{
 				some:{
-					tag_id:tag_id
-				}
-			}
-		}
+					tags:{
+						tag_name: tagName,
+					},
+				},
+			},
+		},
+		include: {
+			product_tags:{
+				include:{
+					tags:true
+				},
+			},
+		},
 	})
 	return resultProduto;
 }

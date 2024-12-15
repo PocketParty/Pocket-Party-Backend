@@ -1,5 +1,5 @@
 import { Produto } from '../../models/produtosModel';
 import { getByTagProdutoRepository} from '../../repositories/produtoRepository';
-export const getByTagProdutoService = async (tagId:number): Promise<Produto[] | null> => {
-	return await getByTagProdutoRepository(tagId);
+export const getByTagProdutoService = async (tagName:string): Promise<Produto[] | null> => {
+	return await getByTagProdutoRepository(tagName);
 };

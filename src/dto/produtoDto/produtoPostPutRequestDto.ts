@@ -1,8 +1,10 @@
+import { Decimal } from "@prisma/client/runtime/library";
+
 export interface ProdutoPostPutRequestDto {
 	id: number;
 	enterprise_id: number;
 	name: string;
-	price: number;
+	price: Decimal;
 	photo_url: string;
 	description: string;
 	tagsId: number[];
