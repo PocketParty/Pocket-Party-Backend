@@ -12,7 +12,7 @@ export const empresaLoginService = async (empresaLoginRequestDTO: EmpresaLoginRe
 	if (empresa === null) {
 		throw authError()
 	}
-	const validacaoSenha = bcrypt.compareSync(empresaLoginRequestDTO.password_hash, empresa.password_hash!)
+	const validacaoSenha = bcrypt.compareSync(empresaLoginRequestDTO.senha, empresa.password_hash!)
 	if (!validacaoSenha) {
 		throw authError()
 	}

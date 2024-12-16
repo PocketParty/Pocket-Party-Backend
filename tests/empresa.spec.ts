@@ -27,7 +27,7 @@ beforeEach(async () => {
 	await request(app).post('/empresas/adicionar').send(empresaPostPutRequestDto);
 	const empresaLoginRequestDTO: EmpresaLoginRequestDTO = {
 		'username': 'username fantasia',
-		'password_hash': "fantasia"
+		'senha': "fantasia"
 	}
 	const response = await request(app).post('/auth/login/empresa').send(empresaLoginRequestDTO);
 	token = response.body;

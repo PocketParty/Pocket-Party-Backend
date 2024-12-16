@@ -35,7 +35,7 @@ describe('POST /auth/login/empresa', () => {
 	it('Login realizado com sucesso', async () => {
 		const empresaLoginRequestDTO: EmpresaLoginRequestDTO = {
 			'username': 'username fantasia',
-			'password_hash': "fantasia"
+			'senha': "fantasia"
 		}
 		const response = await request(app).post('/auth/login/empresa').send(empresaLoginRequestDTO);
 		expect(response.status).toBe(201);
@@ -45,7 +45,7 @@ describe('POST /auth/login/empresa', () => {
 	it('Login passado incorreto', async () => {
 		const empresaLoginRequestDTO: EmpresaLoginRequestDTO = {
 			'username': 'username fant',
-			'password_hash': "fantasia"
+			'senha': "fantasia"
 		}
 		const response = await request(app).post('/auth/login/empresa').send(empresaLoginRequestDTO);
 		expect(response.status).toBe(401);
@@ -54,7 +54,7 @@ describe('POST /auth/login/empresa', () => {
 	it('Senha passado incorreto', async () => {
 		const empresaLoginRequestDTO: EmpresaLoginRequestDTO = {
 			'username': 'username fantasia',
-			'password_hash': "fant"
+			'senha': "fant"
 		}
 		const response = await request(app).post('/auth/login/empresa').send(empresaLoginRequestDTO);
 		expect(response.status).toBe(401);
