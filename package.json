@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "dotenv -e .env -- ts-node-dev src/index.ts",
-    "migrate:dev": "dotenv -e .env -- prisma migrate deploy",
-    "teste": "dotenv -e .env.test.local -- jest --detectOpenHandles",
-    "migrate:teste": "dotenv -e .env.test.local -- prisma migrate deploy"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "ts-node-dev src/index.ts",
+    "migrate:dev": "dotenv -e .env -- prisma migrate deploy"
   },
   "dependencies": {
     "@prisma/client": "5.16.1",
