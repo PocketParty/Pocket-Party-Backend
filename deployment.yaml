@@ -1,0 +1,105 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pocketparty
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: pocketparty
+spec:
+  ports:
+    - name: postgres
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: postgres
+  type: ClusterIP
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: pocketparty
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:latest
+          env:
+            - name: POSTGRES_USER
+              value: "postgres"
+            - name: POSTGRES_PASSWORD
+              value: "senha123"
+            - name: POSTGRES_DB
+              value: "postgres"
+          ports:
+            - containerPort: 5432
+          volumeMounts:
+            - name: postgres-storage
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        # For development/testing only. Consider using a PVC for persistence.
+        - name: postgres-storage
+          emptyDir: {}
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: pocketparty-backend
+  namespace: pocketparty
+spec:
+  ports:
+    - name: http
+      port: 3000
+      targetPort: 3000
+      nodePort: 30080 # Specify a nodePort to access it via minikube ip:30080
+  selector:
+    app: pocketparty-backend
+  type: NodePort
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pocketparty-backend
+  namespace: pocketparty
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pocketparty-backend
+  template:
+    metadata:
+      labels:
+        app: pocketparty-backend
+    spec:
+      containers:
+        - name: pocketparty-backend
+          # Replace this with your image
+          image: ghcr.io/pocketparty/pocket-party-backend:0.1.0-backend
+          env:
+            - name: DATABASE_URL
+              value: "postgresql://postgres:senha123@postgres:5432/devdb?schema=public"
+            - name: SECRET
+              value: "suaChaveSecretaSuperSegura123!@#"
+            - name: PORT
+              value: "3000"
+            - name: DB_NAME
+              value: "devdb"
+          ports:
+            - containerPort: 3000
+          # Run migrations then start server
+          command: ["sh", "-c", "npm run migrate:dev && npm run dev"]
