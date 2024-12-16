@@ -11,19 +11,6 @@ services:
     ports:
       - "5432:5432"
 
-  authentication:
-    image: fabioviniciusfsiqueira/authentication-service:latest
-    environment:
-      DB_USER: postgres
-      DB_NAME: ${DB_NAME}
-      DB_PASSWORD: senha123
-      DB_HOST: db
-      DB_PORT: 5432
-      DB_SSLMODE: disable
-    ports:
-      - "8080:8080"
-    depends_on:
-      - db
   backend:
     image: fabioviniciusfsiqueira/pocketparty-backend:latest
     container_name: api-pocketparty

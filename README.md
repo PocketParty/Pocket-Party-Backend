@@ -57,13 +57,7 @@ npm run dev
 
    ```
 
-2. Rodar o container do authentication-service
-
-   ```bash
-   docker run -d --name authentication-service -e DB_USER=postgres -e DB_NAME=devdb -e DB_PASSWORD=senha123 -e DB_HOST=pocketpartydb -e DB_PORT=5432 -e DB_SSLMODE=disable -p 8080:8080 --link pocketpartydb:db fabioviniciusfsiqueira/authentication-service:latest
-
-   ```
-3. Rodar o container do backend
+2. Rodar o container do backend
 
    ```bash
 	docker run -d --name api-pocketparty -e DATABASE_URL="postgresql://postgres:senha123@pocketpartydb:5432/devdb?schema=public" -e SECRET="suaChaveSecretaSuperSegura123" -e PORT=3000 -e DB_NAME=devdb -p 3000:3000 --link pocketpartydb:db fabioviniciusfsiqueira/pocketparty-backend:latest sh -c "npm run migrate:dev && npm run dev"
