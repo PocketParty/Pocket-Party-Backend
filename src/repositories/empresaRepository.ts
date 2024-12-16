@@ -14,7 +14,9 @@ export const pesquisarEmpresaPeloIdRepository = async (enterprise_id: number): P
 	return resultEmpresa;
 };
 export const pesquisarTodasEmpresaRepository = async (): Promise<Empresa[] | null> => {
-	const resultEmpresa = await prisma.enterprises.findMany({})
+	const resultEmpresa = await prisma.enterprises.findMany({
+		include: { enterprises_tags: { include: { tags: true } } }
+	})
 	return resultEmpresa;
 };
 
